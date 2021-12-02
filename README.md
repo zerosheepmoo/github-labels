@@ -2,6 +2,8 @@
 
 > A nodejs app that turns labels into the template of projects in ZeroClassLab!
 
+![preview](./result.png)
+
 ## Usage
 
 ```bash
