@@ -66,7 +66,6 @@ const defaults = [
 
 const patchMap = {
     'enhancement': defaults[1],
-    'Blueprint': defaults[2],
     'help wanted': defaults[3],
     'documentation': defaults[4],
     'bug': defaults[5],
@@ -78,7 +77,7 @@ const patchMap = {
 };
 
 const postList = [
-    defaults[0]
+    defaults[0], defaults[2],
 ];
 
 (async () => {
@@ -110,9 +109,23 @@ const postList = [
         }
     }
 
+    const alreadyExists = (targetLabelName) => {
+        for (let j = 0; j < originalLables.length; j++) {
+            const labelName = originalLables[j].name;
+            if (targetLabelName === labelName) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     // post new customized labels;
     for (let i = 0; i < postList.length; i++) {
         const newLabelData = postList[i];
+        if (alreadyExists(newLabelData.name)) {
+            console.log(`The new label ${newLabelData.name} already exists.`)
+            continue
+        }
         try {
 
             const posted = await octokit.request(`POST /repos/{owner}/{repo}/labels`, {
